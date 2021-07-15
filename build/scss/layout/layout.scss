@@ -1,0 +1,30 @@
+@use 'sass:map';
+@use '../abstracts/config' as *;
+@use '../abstracts/mixins' as *;
+@use '../abstracts/breakpoints' as *;
+
+
+[class*="container"] {
+  max-width: #{$container * 1px};
+}
+
+//Generate basic column classes
+@for $i from 1 through $columns {
+  .col-#{$i} {
+    width: (100% / ($columns / $i));
+  }
+}
+//Generate media query column classes
+@each $breakpoint, $value in $breakpoints {
+  @include screen-up($breakpoint) {    
+    .container-#{$breakpoint} {
+      max-width: #{$value} !important;
+    }
+
+    @for $i from 1 through $columns {
+      .col-#{$breakpoint}-#{$i} {
+        width: (100% / ($columns / $i)) !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,139 @@
+@use 'sass:map';
+@use "../abstracts/config"as *;
+@use "../abstracts/colours"as *;
+@use "../abstracts/mixins"as *;
+@use "../abstracts/scale"as *;
+@use "../abstracts/breakpoints"as *;
+
+body {
+  width: 100% !important;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  margin: 0;
+  padding: 0;
+  background-image: none;
+}
+
+/* Used to target Outlook email app only */
+body[data-outlook-cycle] .outlookshow {
+  display: block !important;
+  width: auto !important;
+  overflow: visible !important;
+  float: none !important;
+  max-height: inherit !important;
+  max-width: inherit !important;
+  line-height: auto !important;
+  margin-top: 0px !important;
+  visibility: inherit !important;
+}
+
+body[data-outlook-cycle] .outlookhide {
+  display: none !important;
+  display: none;
+  overflow: hidden;
+  float: left;
+  width: 0px;
+  max-height: 0px;
+  max-width: 0px;
+  line-height: 0px;
+  visibility: hidden;
+}
+
+body[data-outlook-cycle] .oa {
+  display: block;
+}
+
+/* Forces Outlook.com to display email at full width */
+.ReadMsgBody {
+  width: 100%;
+}
+
+/* Forces Hotmail to display emails at full width */
+.ExternalClass {
+  width: 100%;
+}
+
+/* Hotmail table centering fix */
+.ExternalClass,
+.ExternalClass p,
+.ExternalClass span,
+.ExternalClass font,
+.ExternalClass td,
+.ExternalClass div {
+  line-height: 100%;
+}
+
+/* Forces Hotmail to display normal line spacing */
+.ExternalClass * {
+  line-height: 100%
+}
+
+/* Yahoo paragraph fix */
+table td {
+  border-collapse: collapse;
+}
+
+table,
+td {
+  mso-table-lspace: 0pt;
+  mso-table-rspace: 0pt;
+}
+
+p {
+  display: block;
+  margin: 1em 0;
+}
+
+/* This resolves the Outlook 07, 10, and Gmail td padding issue fix */
+/* This resolves the issue when iphone puts links on dates, etc. */
+.appleFooter a {
+  color: #33373E !important;
+  text-decoration: none !important;
+}
+.appleText a {
+  color: #262524 !important;
+  text-decoration: none !important;
+}
+.appleWhite a {
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+/* for Gmail */
+a.mobileshow,
+.mobilehide {
+  display: none;
+  color: #fff;
+}
+
+a, 
+.td-none,
+.no-decoration {
+  text-decoration: none !important;
+}
+
+
+/*  Colours
+/* -------------------- */
+
+@each $colour, $value in $utilityColours {
+  .text-#{$colour+""} {
+    color: $value;
+  }
+  .bg-#{$colour+""} {
+    background: $value;
+  }
+}
+
+@each $colour, $shades in $colours {
+  @each $shade, $value in $shades {
+    .text-#{$colour}-#{$shade} {
+      color: $value;
+    }
+
+    .bg-#{$colour}-#{$shade} {
+      background: $value;
+    }
+  }
+}
+

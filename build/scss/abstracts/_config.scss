@@ -1,0 +1,18 @@
+/*  Customise the settings
+/* -------------------------------------------------------------------------- */
+
+/*  Global
+/* -------------------- */
+$default-scale: 16;
+$base-scale: 4; 
+/* @base-scale is the number which is used to divide the default 
+   scale to generate larger and smaller classes. Mostly this is 
+   used with margin and padding to create 25% spacing, 50% gaps
+   and more.
+*/
+
+/*  Layout customisation
+/* -------------------- */
+$columns: 12;
+$container: 600;
+$min-device: 320;

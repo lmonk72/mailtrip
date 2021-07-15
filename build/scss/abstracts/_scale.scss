@@ -1,0 +1,42 @@
+$utility-direction: (
+  'top': top,
+  'left': left,
+  'bottom': bottom,
+  'right': right,
+  'x': x,
+  'y': y
+);
+
+$theme-font-scale: (
+  'xs': 0.75,
+  'sm': 0.825,
+  'base': 1,
+  'md': 1.125,
+  'lg': 1.5,
+  'xl': 2,
+  '2xl': 3,
+);
+
+$theme-font-weights: (
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semi-bold': 600,
+  'bold': 700,
+  'extra-bold': 800,
+  'black': 900,
+);
+
+$theme-line-height: (
+  'none': 1,
+  'tight': 1.25,
+  'normal': 1.5,
+  'spaced': 1.7,
+  'loose': 2,
+);
+
+$theme-text-alignment: (
+  'left': left,
+  'center': center,
+  'right': right
+);

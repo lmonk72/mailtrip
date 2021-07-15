@@ -1,0 +1,65 @@
+## Prevent the following from cluttering the project
+node_modules
+dist
+tmp
+.cache
+
+## Disallow non-web assets
+## Graphics
+*.ai 
+*.eps
+*.pdf
+*.psd
+*.psdt
+
+## Archives
+*.7z 
+*.gz 
+*.jar
+*.rar
+*.tar
+*.zip
+
+## AUDIO
+*.kar
+*.m4a
+*.mid
+*.mid
+*.mp3
+*.ogg
+*.ra 
+
+## Video
+*.3gpp
+*.3gp 
+*.as
+*.asf 
+*.asx 
+*.fla 
+*.flv 
+*.m4v 
+*.mng 
+*.mov 
+*.mp4 
+*.mpeg
+*.mpg 
+*.ogv 
+*.swc 
+*.swf 
+*.webm
+
+## EXECUTABLES
+*.exe
+*.pyc
+
+#System Files
+.DS_Store/
+package-lock.json
+
+#Specific ignores
+build/other
+build/css/
+samples/
+
+#Temporary files prevented from upload
+templates/

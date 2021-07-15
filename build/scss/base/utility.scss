@@ -1,0 +1,43 @@
+@use 'sass:map';
+@use "../abstracts/config"as *;
+@use "../abstracts/scale"as *;
+@use "../abstracts/mixins"as *;
+@use "../abstracts/breakpoints"as *;
+
+/*  @notes
+  str-slice is a function (like javascript) which
+  allows us to trip the length of a value
+
+  str-slice($string, $start-at, $end-at)
+  e.g. .p-bottom {... if string was sliced to start and
+    end at character 1, the output would be the first 
+    letter 'b' = .p-b {...
+
+/* -------------------- */
+//Default - no breakpoints
+@for $i from 1 through ($default-scale/$base-scale)*2 {
+  @each $direction, $direction-value in $utility-direction {
+    .p#{str-slice($direction, 1, 1)}-#{$i} {
+      @include spacing('padding', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+    }
+    .m#{str-slice($direction, 1, 1)}-#{$i} {
+      @include spacing('margin', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+    }
+  }
+}
+
+//Default - with breakpoints
+@each $breakpoint, $value in $breakpoints {
+  @include screen-up($breakpoint) {    
+  @for $i from 1 through ($default-scale/$base-scale)*2 {
+
+    @each $direction, $direction-value in $utility-direction {
+      .p#{str-slice($direction, 1, 1)}-#{$breakpoint}-#{$i} {
+        @include spacing('padding', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+      }
+      .m#{str-slice($direction, 1, 1)}-#{$breakpoint}-#{$i} {
+        @include spacing('margin', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+      }
+    }
+  }}
+}

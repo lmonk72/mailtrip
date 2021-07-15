@@ -1,0 +1,71 @@
+@use 'sass:map';
+@use "../abstracts/config" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/scale" as *;
+@use "../abstracts/breakpoints" as *;
+
+/* --------------------
+   Font Scale
+   + Get the property and value from $theme-font-scale variable
+   + Loop over to output classes
+/* -------------------- */
+
+//Generate basic font size %
+@each $scale, $value in $theme-font-scale{
+  .fs-#{$scale} {
+    font-size: $value * 100%;
+  }
+}
+//Generate basic font weight classes
+@each $weight, $value in $theme-font-weights {
+  .fw-#{$weight} {
+    font-weight: #{$value};
+  }
+}
+
+//Generate basic line heights
+@each $height, $value in $theme-line-height{
+  .lh-#{$height} {
+    line-height: $value * 100%;
+  }
+}
+
+//Generate text alignment classes
+@each $alignment, $value in $theme-text-alignment{
+  .ta-#{$alignment} {
+    text-align: $value;
+  }
+}
+
+//Generate breakpoint classes
+@each $breakpoint, $value in $breakpoints {
+  @include screen-up($breakpoint) {
+    //Font size
+    @each $scale, $value in $theme-font-scale{
+      .fs-#{$breakpoint}-#{$scale} {
+        font-size: #{$default-scale * $value * 1px}; //@fallback size
+        font-size: #{$value * 1rem};
+      }
+    }
+    //Font weight
+    @each $weight, $value in $theme-font-weights {
+      .fw-#{$breakpoint}-#{$weight} {
+        font-weight: #{$value};
+      }
+    }
+
+    //Line height
+    @each $height, $value in $theme-line-height{
+      .lh-#{$breakpoint}-#{$height} {
+        line-height: $value * 100%;
+      }
+    }
+
+    //Text alignment
+    @each $alignment, $value in $theme-text-alignment{
+      .ta-#{$breakpoint}-#{$alignment} {
+        text-align: $value;
+      }
+    }
+  }
+}

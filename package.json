@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "devDependencies": {
     "autoprefixer": "^9.6.1",
+    "browser-sync": "^2.27.4",
     "browserslist": "^4.14.5",
     "caniuse-lite": "^1.0.30001142",
     "dart-sass": "^1.25.0",
@@ -12,23 +13,20 @@
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-babel": "^8.0.0",
-    "gulp-cli": "^2.2.0",
+    "gulp-cli": "^2.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^7.1.0",
     "gulp-inline-css": "^4.0.0",
     "gulp-line-ending-corrector": "^1.0.3",
-    "gulp-livereload": "^4.0.2",
-    "gulp-postcss": "^8.0.0",
     "gulp-purgecss": "^4.0.3",
     "gulp-sass": "^4.1.0",
     "gulp-smoosher": "^0.0.9",
     "gulp-sourcemaps": "^2.6.5",
     "sass": "^1.32.8"
   },
-  "scripts": {},
+  "scripts": {
+    "build-email": "gulp build"
+  },
   "author": "Lawrence Monk",
-  "license": "ISC",
-  "dependencies": {
-    "gulp-htmlmin": "^5.0.1"
-  }
+  "license": "ISC"
 }

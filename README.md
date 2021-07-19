@@ -26,8 +26,8 @@ I am aiming to get the bundle to ship:
 - With a 'brand-centric' configuration allowing you to create palettes and fonts which can be easily swapped between
 - With a few pre-built themes
 
-## What has this bundle being tested with?
-To make sure the output is working as intended, it has gone through [W3C Markup Validation](https://validator.w3.org/#validate_by_input), referenced ['Can I Email'](https://caniemail.com) for browser support, and been tested in [Litmus's email preview tool](https://www.litmus.com/pre-send-testing/) to check rendering consistency.
+## What has this bundle been tested with?
+To make sure the output is working as intended, it has gone through [W3C Markup Validation](https://validator.w3.org/#validate_by_input), referenced ['Can I Email'](https://caniemail.com) for email client support, and been tested in [Litmus's email preview tool](https://www.litmus.com/pre-send-testing/) to check rendering consistency.
 
 ## Known issues
 - [ ] Media queries are not merging into HTML

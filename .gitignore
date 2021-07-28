@@ -1,5 +1,6 @@
 ## Prevent the following from cluttering the project
 node_modules
+build
 dist
 tmp
 .cache
@@ -63,3 +64,5 @@ samples/
 
 #Temporary files prevented from upload
 templates/
+exports/
+samples/

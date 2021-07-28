@@ -9,24 +9,31 @@
     "browserslist": "^4.14.5",
     "caniuse-lite": "^1.0.30001142",
     "dart-sass": "^1.25.0",
+    "del": "^6.0.0",
     "fibers": "^5.0.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.3.0",
     "gulp-cli": "^2.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-imagemin": "^7.1.0",
     "gulp-inline-css": "^4.0.0",
-    "gulp-line-ending-corrector": "^1.0.3",
+    "gulp-prompt": "^1.2.0",
     "gulp-purgecss": "^4.0.3",
+    "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.1.0",
     "gulp-smoosher": "^0.0.9",
     "gulp-sourcemaps": "^2.6.5",
+    "gulp-strip-css-comments": "^2.0.0",
     "sass": "^1.32.8"
   },
   "scripts": {
     "build-email": "gulp build"
   },
   "author": "Lawrence Monk",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "gulp-htmlmin": "^5.0.1"
+  }
 }

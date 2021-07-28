@@ -20,7 +20,7 @@ body[data-outlook-cycle] .outlookshow {
   float: none !important;
   max-height: inherit !important;
   max-width: inherit !important;
-  line-height: auto !important;
+  line-height: inherit !important;
   margin-top: 0px !important;
   visibility: inherit !important;
 }
@@ -114,6 +114,7 @@ a,
   text-decoration: none !important;
 }
 
+/* Style elements with the font to be used */
 h1,
 h2,
 h3,
@@ -128,4 +129,9 @@ li {
   font-family: 'Lato', 'HelveticaNeue', Helvetica, Arial, sans-serif !important;
   font-weight: 400;
   margin-bottom: 0;
+}
+
+/* Ensure pre-header content (if any) is hidden */
+div.preheader {
+  display: none !important;
 }

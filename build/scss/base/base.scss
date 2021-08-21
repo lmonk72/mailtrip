@@ -18,6 +18,9 @@
   .bg-#{$colour+""} {
     background: $value;
   }
+  .border-#{$colour+""} {
+    border-color: $value;
+  }
 }
 
 @each $colour, $shades in $colours {
@@ -29,6 +32,8 @@
     .bg-#{$colour}-#{$shade} {
       background: $value;
     }
+    .border-#{$colour}-#{$shade} {
+      border-color: $value;
+    }
   }
 }
-

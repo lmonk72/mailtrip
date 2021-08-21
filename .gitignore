@@ -4,6 +4,7 @@ build
 dist
 tmp
 .cache
+*.html
 
 ## Disallow non-web assets
 ## Graphics
@@ -66,3 +67,4 @@ samples/
 templates/
 exports/
 samples/
+emails/

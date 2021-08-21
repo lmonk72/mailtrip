@@ -27,4 +27,15 @@
       }
     }
   }
+  @include screen-down($breakpoint) {    
+    .container-#{$breakpoint}-max {
+      max-width: #{$value} !important;
+    }
+
+    @for $i from 1 through $columns {
+      .col-#{$breakpoint}-max-#{$i} {
+        width: (100% / ($columns / $i)) !important;
+      }
+    }
+  }
 }

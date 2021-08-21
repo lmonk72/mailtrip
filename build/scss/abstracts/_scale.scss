@@ -7,7 +7,14 @@ $utility-direction: (
   'y': y
 );
 
-$theme-font-scale: (
+$utility-display: (
+  'inline': inline,
+  'inline-block': inline-block,
+  'block': block,
+  'none': none
+);
+
+$utility-scale: (
   'xs': 0.75,
   'sm': 0.825,
   'base': 1,
@@ -40,3 +47,4 @@ $theme-text-alignment: (
   'center': center,
   'right': right
 );
+

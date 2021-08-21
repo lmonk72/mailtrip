@@ -23,21 +23,87 @@
     .m#{str-slice($direction, 1, 1)}-#{$i} {
       @include spacing('margin', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
     }
+    .b#{str-slice($direction, 1, 1)}-#{$i} {
+      @include spacing('border', $direction-value, ((($base-scale/$default-scale)*$i)/4)*$default-scale);
+      border-style: solid;
+    }
   }
 }
 
 //Default - with breakpoints
 @each $breakpoint, $value in $breakpoints {
   @include screen-up($breakpoint) {    
-  @for $i from 1 through ($default-scale/$base-scale)*2 {
+    @for $i from 1 through ($default-scale/$base-scale)*2 {
 
-    @each $direction, $direction-value in $utility-direction {
-      .p#{str-slice($direction, 1, 1)}-#{$breakpoint}-#{$i} {
-        @include spacing('padding', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
-      }
-      .m#{str-slice($direction, 1, 1)}-#{$breakpoint}-#{$i} {
-        @include spacing('margin', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+      @each $direction, $direction-value in $utility-direction {
+        .p#{str-slice($direction, 1, 1)}-#{$breakpoint}-#{$i} {
+          @include spacing('padding', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+        }
+        .m#{str-slice($direction, 1, 1)}-#{$breakpoint}-#{$i} {
+          @include spacing('margin', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+        }
+        .b#{str-slice($direction, 1, 1)}-#{$breakpoint}-#{$i} {
+          @include spacing('border', $direction-value, ((($base-scale/$default-scale)*$i)/4)*$default-scale);
+          border-style: solid;
+        }
       }
     }
-  }}
+  }
+  @include screen-down($breakpoint) {    
+    @for $i from 1 through ($default-scale/$base-scale)*2 {
+
+      @each $direction, $direction-value in $utility-direction {
+        .p#{str-slice($direction, 1, 1)}-#{$breakpoint}-max-#{$i} {
+          @include spacing('padding', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+        }
+        .m#{str-slice($direction, 1, 1)}-#{$breakpoint}-max-#{$i} {
+          @include spacing('margin', $direction-value, (($base-scale/$default-scale)*$i)*$default-scale);
+        }
+        .b#{str-slice($direction, 1, 1)}-#{$breakpoint}-max-#{$i} {
+          @include spacing('border', $direction-value, ((($base-scale/$default-scale)*$i)/4)*$default-scale);
+          border-style: solid;
+        }
+      }
+    }
+  }
+}
+
+//Create 'Display' classes e.g. inline-block
+@each $display, $display-value in $utility-display {
+  .d-#{$display} {
+    display: #{$display-value};
+  }
+}
+//Create 'Display' classes for each breakpoint e.g. d-inline-block
+@each $breakpoint, $value in $breakpoints {
+  @include screen-up($breakpoint) { 
+    @each $display, $display-value in $utility-display {
+      .d-#{$breakpoint}-#{$display} {
+        display: #{$display-value};
+      }
+    }
+  }
+  @include screen-down($breakpoint) { 
+    @each $display, $display-value in $utility-display {
+      .d-#{$breakpoint}-max-#{$display} {
+        display: #{$display-value};
+      }
+    }
+  }
+}
+
+//Create border radius classes
+@for $i from 1 through ($default-scale/$base-scale)*2 {
+  .bdrs-#{$i} {
+    border-radius: ((($base-scale/$default-scale)*$i)*$default-scale)*1px;
+  }
+}
+@each $breakpoint, $value in $breakpoints {
+  @include screen-up($breakpoint) { 
+    @for $i from 1 through ($default-scale/$base-scale)*2 {
+      .bdrs-#{$breakpoint}-#{$i} {
+        border-radius: ((($base-scale/$default-scale)*$i)*$default-scale)*1px;
+      }
+    }
+  }
 }

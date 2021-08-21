@@ -6,12 +6,12 @@
 
 /* --------------------
    Font Scale
-   + Get the property and value from $theme-font-scale variable
+   + Get the property and value from $utility-scale variable
    + Loop over to output classes
 /* -------------------- */
 
 //Generate basic font size %
-@each $scale, $value in $theme-font-scale{
+@each $scale, $value in $utility-scale{
   .fs-#{$scale} {
     font-size: $value * 100%;
   }
@@ -41,7 +41,7 @@
 @each $breakpoint, $value in $breakpoints {
   @include screen-up($breakpoint) {
     //Font size
-    @each $scale, $value in $theme-font-scale{
+    @each $scale, $value in $utility-scale{
       .fs-#{$breakpoint}-#{$scale} {
         font-size: #{$default-scale * $value * 1px}; //@fallback size
         font-size: #{$value * 1rem};
@@ -66,6 +66,10 @@
       .ta-#{$breakpoint}-#{$alignment} {
         text-align: $value;
       }
+    }
+
+    .fs-italic, .italic {
+      font-style: italic;
     }
   }
 }

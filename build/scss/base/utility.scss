@@ -1,8 +1,8 @@
 @use 'sass:map';
-@use "../abstracts/config"as *;
-@use "../abstracts/scale"as *;
-@use "../abstracts/mixins"as *;
-@use "../abstracts/breakpoints"as *;
+@use "../abstracts/config" as *;
+@use "../abstracts/scale" as *;
+@use "../abstracts/mixins" as *;
+@use "../abstracts/breakpoints" as *;
 
 /*  @notes
   str-slice is a function (like javascript) which

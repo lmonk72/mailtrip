@@ -5,57 +5,74 @@ const {
   series
 } = require('gulp');
 
-const sass = require('gulp-sass');
-const Fiber = require('fibers');
+
+// Plugins
+const sass = require('gulp-sass')(require('sass'));
 const concat = require('gulp-concat');
-const purgecss = require('gulp-purgecss');
-const smoosher = require('gulp-smoosher');
 const stripCssComments = require('gulp-strip-css-comments');
 const cleanCSS = require('gulp-clean-css');
+const purgecss = require('gulp-purgecss');
+const smoosher = require('gulp-smoosher');
 const inlineCss = require('gulp-inline-css');
 const htmlmin = require('gulp-htmlmin');
 const imagemin = require('gulp-imagemin');
-const prompt = require('gulp-prompt');
 const browsersync = require('browser-sync').create();
-const rename = require("gulp-rename");
-const del = require('del');
+const sourcemaps = require('gulp-sourcemaps');
+const rename = require('gulp-rename');
+const clean = require('gulp-clean');
 
-//Dart sass compiler
-sass.compiler = require('sass');
+// Compile sass files
+function compileSass() {
+  return sass().on('error', sass.logError);
+}
 
-//Compile SASS to CSS
-function compileCSS() {
-  return src('build/scss/**/*.scss', {
-      sourcemaps: true
-    })
-    .pipe(sass({
-      fiber: Fiber
-    }).on('error', sass.logError))
-    .pipe(concat('styles.css'))
+// CSS Tasks
+function buildStyles() {
+  return src('build/**/*.scss')
+    .pipe(compileSass()) // Use the helper function here
+    .pipe(dest('tmp'));
+}
+
+// Remove CSS Comments
+function stripStyleComments() {
+  return src('tmp/css/**/*.css')
+    .pipe(stripCssComments({
+      preserve: false
+    }))
+    .pipe(dest('tmp/css'));
+}
+
+function concatenateStyles() {
+  return src(['tmp/css/**/*.css', '!dist/**/boilerplate.css'])
+    .pipe(concat('main.css'))
+    .pipe(dest('tmp/css'));
+}
+
+
+// Purge CSS of unused styles
+function purgeStyles() {
+  return src('tmp/css/*.css')
     .pipe(purgecss({
       content: ['./*.html']
     }))
-    .pipe(stripCssComments({
-      preserve: false
-    }))
-    .pipe(cleanCSS())
-    .pipe(dest('dist/css', {
-      sourcemaps: '.'
-    }))
+    .pipe(dest('dist/css'));
 }
 
-//Compile a boilerplate to dodge certain css purging
-function boilerplateCSS() {
-  return src('build/scss/base/boilerplate.scss', {
-      sourcemaps: true
-    })
-    .pipe(sass({
-      fiber: Fiber
-    }).on('error', sass.logError))
-    .pipe(stripCssComments({
-      preserve: false
+function minifyStyles() {
+  return src('dist/css/*.css')
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(rename({
+      suffix: '.min'
     }))
-    .pipe(smoosher())
+    .pipe(dest('dist/css'));
+}
+
+
+function boilerplateCSS() {
+  return src('tmp/css/base/boilerplate.css')
+    .pipe(smoosher({
+      ignoreFilesNotFound: true
+    }))
     .pipe(cleanCSS())
     .pipe(inlineCss({
       removeStyleTags: true,
@@ -65,30 +82,41 @@ function boilerplateCSS() {
     .pipe(dest('dist/css'));
 }
 
-//Merge CSS into the HTML 
-function inlineCSS() {
+function inlineStyles() {
   return src('./*.html')
-    .pipe(smoosher())
+    .pipe(smoosher({
+      ignoreFilesNotFound: true
+    }))
     .pipe(inlineCss({
       removeStyleTags: false,
       removeLinkTags: true,
       preserveMediaQueries: true
     }))
+    .pipe(dest('dist'));
+}
+
+// Minify the HTML
+function minifyHtml() {
+  return src('dist/*.html')
     .pipe(htmlmin({
       collapseWhitespace: true
+    }))
+    .pipe(rename({
+      suffix: '.min'
     }))
     .pipe(dest('dist'));
 }
 
-//Compress images 
-function minifyIMG() {
+
+// Image Tasks
+function minifyImages() {
   return src('build/img/**/*')
     .pipe(imagemin([
       imagemin.gifsicle({
         interlaced: true
       }),
       imagemin.mozjpeg({
-        quality: 85,
+        quality: 75,
         progressive: true
       }),
       imagemin.optipng({
@@ -107,7 +135,13 @@ function minifyIMG() {
     .pipe(dest('dist/img'));
 }
 
-//Initialise browser-sync 
+// Remove tmp folder once finished
+function cleanup() {
+  return src('tmp', {read: false})
+  .pipe(clean());
+}
+
+// Browsersync Tasks
 function browsersyncServe(callback) {
   browsersync.init({
     server: {
@@ -117,141 +151,39 @@ function browsersyncServe(callback) {
   callback();
 }
 
-//Trigger browser refresh
 function browsersyncReload(callback) {
   browsersync.reload();
   callback();
 }
 
-//Handle when a project is saveed
-function save() {
-  return src('./dist/index.html')
-    /* Prompt user for project name and confirmation of what to do next */
-    .pipe(prompt.prompt([{
-          type: 'input',
-          name: 'emailName',
-          message: 'What is the name of the email?',
-          validate: function (emailName) {
-            if (typeof (emailName) == 'undefined' || typeof (emailName) == null || emailName == '') {
-              return false;
-            }
-            return true;
-          }
-        },
-        {
-          type: 'input',
-          name: 'clientName',
-          message: 'Who is the client?',
-          validate: function (clientName) {
-            if (typeof (clientName) == 'undefined' || typeof (clientName) == null || clientName == '') {
-              return false;
-            }
-            return true;
-          }
-        },
-        {
-          type: 'checkbox',
-          name: 'nextSteps',
-          message: 'What would you like to do now?',
-          choices: ['Save project', 'Save and Export', 'Export only', 'Nothing'],
-          validate: function (nextSteps) {
-            if (typeof (nextSteps) == 'undefined' || typeof (nextSteps) == null || nextSteps == '') {
-              return false;
-            }
-            return true;
-          }
-        }
-      ],
-
-      /* Results are stored in 'results' */
-      function (results) {
-        let emailName = results.emailName;
-        let clientName = results.clientName;
-        let nextStep = results.nextSteps.toString();
-
-        switch (nextStep) {
-          case 'Save project':
-            src("build/**/*")
-              .pipe(dest(`emails/${clientName}/${emailName}/saved/build`));
-            
-            src("*.html")
-              .pipe(dest(`emails/${clientName}/${emailName}/saved`));
-
-            console.log(`The assets have been saved to 'emails/${clientName}/${emailName}/saved'.`);
-            break;
-
-          case 'Save and Export':
-            //Save
-            src("build/**/*")
-              .pipe(dest(`emails/${clientName}/${emailName}/saved/build`));
-            //Save
-            src("*.html")
-              .pipe(dest(`emails/${clientName}/${emailName}/saved`));
-            //Export
-            src("dist/**/*.html")
-              .pipe(dest(`emails/${clientName}/${emailName}/export`));
-            //Export
-            src("dist/img/**/*")
-              .pipe(dest(`emails/${clientName}/${emailName}/export/img`))
-
-            console.log(`The assets have been saved and exported to 'emails/${clientName}/${emailName}'.`);
-            break;
-
-          case 'Export only':
-
-            src("dist/**/*.html")
-              .pipe(dest(`emails/${clientName}/${emailName}/export`));
-
-            src("dist/img/**/*")
-              .pipe(dest(`emails/${clientName}/${emailName}/export/img`))
-
-              console.log(`The assets have been saved and exported to 'emails/${clientName}/${emailName}/export'.`);
-            break;
-
-          case 'Nothing':
-            console.log("OK, let's chill");
-            break;
-
-          default:
-            break;
-        }
-
-      }));
-}
-
-
-//Watch for changes
-function watchTask() {
-  watch(['*.html', 'build/scss/**/*.scss'], series(compileCSS, boilerplateCSS, inlineCSS, browsersyncReload));
-  watch(['*', 'build/img/**/*'], series(minifyIMG, browsersyncReload));
-}
-
-async function clean() {
-  //Set a three-second delay so that any tasks before it can complete
-  setTimeout(function () {
-    return del.sync(['dist/**', '!dist']);
-  }, 3000);
-}
-
-exports.build = series(
-  compileCSS,
+const buildTasks = series(
+  buildStyles,
+  stripStyleComments,
+  purgeStyles,
+  minifyStyles,
   boilerplateCSS,
-  inlineCSS,
-  minifyIMG
+  inlineStyles,
+  minifyHtml,
+  minifyImages,
+  cleanup
 );
 
-exports.save = series(save);
-exports.new = series(clean);
+// Watch Task
+function watchTask() {
+  watch(['*.html', 'build/**/*.scss'], series(
+    buildStyles,
+    stripStyleComments,
+    purgeStyles,
+    minifyStyles,
+    boilerplateCSS,
+    inlineStyles,
+    minifyHtml,
+    browsersyncReload));
+  watch(['*', 'build/img/**/*'], series(minifyImages, browsersyncReload));
+}
 
-//Default Gulp tasks
-exports.default = series(
-  compileCSS,
-  boilerplateCSS,
-  inlineCSS,
-  minifyIMG,
-  browsersyncServe,
-  watchTask
-)
-
-//Configure any individual tasks 
-//exports.taskName = GulpTaskName
+// Exports
+exports.build = buildTasks;
+exports.default = series(buildTasks, browsersyncServe, watchTask);
+exports.buildStyles = series(buildStyles);
+exports.clean = series(cleanup);

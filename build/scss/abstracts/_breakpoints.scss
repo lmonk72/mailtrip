@@ -1,7 +1,0 @@
-@use 'sass:map';
-@use "../abstracts/config" as *;
-
-$breakpoints: (
-  sm: 480px,
-  lg: #{$container * 1px},
-);
